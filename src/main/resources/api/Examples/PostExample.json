@@ -1,0 +1,8 @@
+[{
+  "employeeId__c": "1",
+  "Name": "Pranav",
+  "employeeSalary__c": "10000000",
+  "employeeDesignation__c": "MuleSoft",
+  "employeeEmailId__c": "pg@gmail.com",
+  "employeeAddress__c": "Hyderabad"
+}]
