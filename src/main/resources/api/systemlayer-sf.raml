@@ -1,0 +1,67 @@
+#%RAML 1.0
+title: Systemlayer-SF
+
+types:
+  Post-DT: !include DataTypes/PostDataType.raml
+  Patch-DT: !include DataTypes/PatchDataType.raml
+  Delete-DT: !include DataTypes/Delete-dataType.raml
+
+/sapi/sf:
+
+  post:
+    body:
+      application/json:
+        type: Post-DT
+        example: !include Examples/PostExample.json
+    responses:
+      201:
+        body:
+          application/json:
+            example: {"Message": "Inserted Successfully"}
+
+  patch:
+    body:
+      application/json:
+        type: Patch-DT[]
+        example: !include Examples/PatchExample.json
+    responses:
+      201:
+        body:
+          application/json:
+            example: {"Message": "Updated Successfully"}
+
+  delete:
+    body:
+      application/json:
+        type: Delete-DT[]
+        example: !include Examples/delete-request.json
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include Examples/delete-response.json
+        
+
+  get:
+    queryParameters:
+      id:
+        type: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: Post-DT
+            example: !include Examples/GetExample.json          
+
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: Post-DT
+              example: !include Examples/GetExample.json
+
+
+            
+            

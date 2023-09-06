@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_2d45785e_c0cb_429b_bbc6_e9e374d29625_Output_Payload = Array<{  employeeEmailId: String,   employeeId: Number,   employeeAddress: String,   employeeSalary: Number,   Name: String,   employeeDesignation: String,   _?: Any}>
+
