@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+
+
+	<flow name="Post" doc:id="ce59bd2e-8c36-45c6-af3a-43a51197cac2" >
+		<salesforce:create doc:name="Create" doc:id="bafa0d77-7616-4306-b4b8-080316e1a0a5" config-ref="Salesforce_Config" type="Employee__c"/>
+		<ee:transform doc:name="Transform Message" doc:id="ac0c1bc0-77df-4add-86f7-23be7c77c570" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="7017c54d-7d22-4e03-b242-9d68397f106e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="GetbyQueryP" doc:id="2d45785e-c0cb-429b-bbc6-e9e374d29625" >
+		<salesforce:query doc:name="Query" doc:id="fec5f072-c077-48b7-82bd-a9ca57be41ac" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[select employeeAddress__c,employeeDesignation__c,employeeEmailId__c,employeeId__c,employeeSalary__c,Name FROM Employee__c where employeeId__c = ':id'  ]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[{id: attributes.queryParams.id}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Transform Message" doc:id="d03b3ea0-6818-4d40-be66-1db4891ab0e9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="GetbyUriP" doc:id="7dae6e32-193e-4353-9c2a-76ed892a1093" >
+		<salesforce:query doc:name="Query" doc:id="23bf7ce4-3eee-441f-94f3-ed084cc91dce" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[select employeeAddress__c,employeeDesignation__c,employeeEmailId__c,employeeId__c,employeeSalary__c,Name FROM Employee__c where employeeId__c = ':id'  ]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[{id: attributes.uriParams.id}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Transform Message" doc:id="b5d733d8-92e4-4e45-8e91-54a1ee77ce68" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Delete" doc:id="ee1a0c66-fedd-49ed-944f-76ee1df97b6f" >
+		<salesforce:delete doc:name="Delete" doc:id="5766d293-060e-4570-b0cd-d77bceb2bb74" config-ref="Salesforce_Config">
+			<salesforce:ids ><![CDATA[#[payload.Id]]]></salesforce:ids>
+		</salesforce:delete>
+		<ee:transform doc:name="Transform Message" doc:id="a47ed8ed-0fa4-4235-8ac4-8684abd28f9f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Update" doc:id="6fc45336-1e7e-4b25-bc35-6afb3f1b4937" >
+		<logger level="INFO" doc:name="Logger" doc:id="c6972efd-aa4f-4a22-b622-b2594efdace7" />
+		<salesforce:update doc:name="Update" doc:id="0797f91d-3bc2-4632-8a12-34fb902c5a7b" config-ref="Salesforce_Config" type="Employee__c"/>
+		<ee:transform doc:name="Transform Message" doc:id="40b3fd8c-c4a8-461e-91c7-4d6b6acb6a9c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
